@@ -115,16 +115,20 @@
                     @endforeach
                     <div style="margin-top: 10px;">
                          @foreach($tags as $tag)
-                            <span class="tagbox"><a class="taglink" href="/jobs?q={{ $tag }}&country={{ $_COOKIE['country'] }}">{{ $tag }}</a><span class="tagcount"></span></span>
+                            <span class="tagbox">
+                                <a class="taglink" href="/jobs?q={{ $tag }}
+                                                        ">
+                                    {{ $tag }}
+                                </a>
+                                <span class="tagcount">
+                                
+                                </span>
+                            </span>
                     @endforeach
                     </div>
                     <div>
-                   @foreach($commentsData as $commentValue)
-                   <img src="{!! $commentValue['author_avatar'] !!}" height="70" width="70" style="float: left; margin: 10px;">
-                    {!! $commentValue['message'] !!}
-                    <h4>{!! $commentValue['author_name'] !!}</h4>
-                    <hr>
-                   @endforeach
+                    
+                   
                    </div>
                    
                     <!-- <div id="disqus_thread">
@@ -176,62 +180,63 @@
                             @endif
 
                         </div><hr>
-<div style="border-color: #20354a; border-style: solid ;border-radius: 5px;padding: 10px;" >
+                        <!-- Subscribe to our mailing list -->
+                        <div style="border-color: #20354a; border-style: solid ;border-radius: 5px;padding: 10px;" >
                             
                             <link href="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/css/embedded.css" rel="stylesheet" type="text/css">
-<style>
-    .subscribe-embedded-form
-    {
-        color: #333
-    }
-    .subscribe-embedded-form label{
-        color: #555
-    }
-</style>
-<div class="subscribe-embedded-form" style="">
-    <h5>Subscribe to our mailing list</h4>
-    <p class="text-sm text-right" >
-        <span class="text-danger">*</span> indicates required
-    </p>
-    <form action="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/lists/58505af6a9b2a/embedded-form-subscribe-captcha" method="POST" class="form-validate-jqueryz">
-        <div class="form-group">
-            <label> Email <span class="text-danger">*</span>
-            </label>
-            <input id="EMAIL" placeholder="" value="" type="text" name="EMAIL" class="form-control equired email ">
-        </div>
-        <div class="form-group">
-            <label>First name</label>
-            <input id="FIRST_NAME" 
-                placeholder="" 
-                value="" 
-                type="text" 
-                name="FIRST_NAME" 
-                class="form-control 
-            ">
-        </div>
-        <div class="form-group">
-            <label>Last name</label>
-            <input id="LAST_NAME" placeholder="" value="" type="text" name="LAST_NAME" class="form-control ">
-        </div>
-        <div class="form-button text-center">
-            <button class="btn btn-primary ">Subscribe</button>
-        </div>
-    </form>
-</div>
+                        <style>
+                            .subscribe-embedded-form
+                            {
+                                color: #333
+                            }
+                            .subscribe-embedded-form label{
+                                color: #555
+                            }
+                        </style>
+                        <div class="subscribe-embedded-form" style="">
+                            <h5>Subscribe to our mailing list</h4>
+                            <p class="text-sm text-right" >
+                                <span class="text-danger">*</span> indicates required
+                            </p>
+                            <form action="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/lists/58505af6a9b2a/embedded-form-subscribe-captcha" method="POST" class="form-validate-jqueryz">
+                                <div class="form-group">
+                                    <label> Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input id="EMAIL" placeholder="" value="" type="text" name="EMAIL" class="form-control equired email ">
+                                </div>
+                                <div class="form-group">
+                                    <label>First name</label>
+                                    <input id="FIRST_NAME" 
+                                        placeholder="" 
+                                        value="" 
+                                        type="text" 
+                                        name="FIRST_NAME" 
+                                        class="form-control 
+                                    ">
+                                </div>
+                                <div class="form-group">
+                                    <label>Last name</label>
+                                    <input id="LAST_NAME" placeholder="" value="" type="text" name="LAST_NAME" class="form-control ">
+                                </div>
+                                <div class="form-button text-center">
+                                    <button class="btn btn-primary ">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
 
-<script type="text/javascript" src="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/assets/js/core/libraries/jquery.min.js">
-</script>
-<script type="text/javascript" src="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/assets/js/plugins/forms/validation/validate.min.js">
-</script>
-<script>
-    $.noConflict();
-    jQuery( document ).ready(function( $ ) 
-    {
-        $(".subscribe-embedded-form form").validate();
-    });
-</script>
-</div>
-<hr>
+                        <script type="text/javascript" src="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/assets/js/core/libraries/jquery.min.js">
+                        </script>
+                        <script type="text/javascript" src="http://localhost/acelle-204/codecanyon-17796082-acelle-email-marketing-web-application/acelle-2.0.4/public/assets/js/plugins/forms/validation/validate.min.js">
+                        </script>
+                        <script>
+                            $.noConflict();
+                            jQuery( document ).ready(function( $ ) 
+                            {
+                                $(".subscribe-embedded-form form").validate();
+                            });
+                        </script>
+                        </div>
+                        <hr>
                         <!-- SHOW  RELETED JOBS -->
                         @foreach($relatedJobs as $reletedJobs)
 

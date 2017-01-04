@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "~4.0",
         "sabre/xml": "dev-master",
         "cohensive/embed": "5.0.*",
-        "roumen/disqus": "^1.2",
+        
         "torann/geoip": "^1.0"
     },
     "require-dev": {

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9bca1639c37bc4a8b886b3e4cac390a2",
-    "content-hash": "e4ae60194f83f093cc2fccd755d74f78",
+    "hash": "1952c5a1ba23e9cecfed9e0bda74478b",
+    "content-hash": "f23a94ef8cc28b2f63e3bdc957cebcea",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1218,53 +1218,6 @@
                 "shell"
             ],
             "time": "2015-11-12 16:18:56"
-        },
-        {
-            "name": "roumen/disqus",
-            "version": "v1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/RoumenDamianoff/laravel-disqus.git",
-                "reference": "bb160b22f5ded911218ddcf395e8e0cb1c3ac0ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/RoumenDamianoff/laravel-disqus/zipball/bb160b22f5ded911218ddcf395e8e0cb1c3ac0ba",
-                "reference": "bb160b22f5ded911218ddcf395e8e0cb1c3ac0ba",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~4|~5",
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Roumen\\Disqus": "src/"
-                },
-                "files": [
-                    "src/Roumen/Disqus/disqusapi/disqusapi.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache"
-            ],
-            "authors": [
-                {
-                    "name": "Roumen Damianoff",
-                    "email": "roumen@dawebs.com",
-                    "homepage": "https://roumen.it",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Disqus API package for Laravel 5.",
-            "homepage": "http://roumen.it/projects/laravel-disqus",
-            "keywords": [
-                "disqus",
-                "laravel"
-            ],
-            "time": "2015-05-16 16:31:33"
         },
         {
             "name": "roumen/sitemap",

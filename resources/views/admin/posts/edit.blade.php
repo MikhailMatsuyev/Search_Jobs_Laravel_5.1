@@ -299,10 +299,17 @@
 
                             <div class="col-sm-8">
                                 <select name="category" id="category" class="form-control">
+                                  @if(isset($post->parent_category))
                                     @foreach($categories as $category)
                                         <option {{$post->parent_category->id == $category->id ? 'selected':''}}
                                                 value="{{$category->id}}">{{$category->title}}</option>
                                     @endforeach
+                                    @else 
+                                        @foreach($categories as $category)
+                                        <option 
+                                                value="{{$category->id}}">{{$category->title}}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
@@ -313,9 +320,17 @@
 
                             <div class="col-sm-8">
                                 <select id="sub_category" name="sub_category" class="form-control">
+                                  @if(isset($sub_categories))
                                     @foreach($sub_categories as $sub)
                                         <option {{$post->category->id == $sub->id ? 'selected':''}} value="{{$sub->id}}">{{$sub->title}}</option>
                                     @endforeach
+                                   @else 
+
+
+
+
+
+                                   @endif 
                                 </select>
                             </div>
                         </div>

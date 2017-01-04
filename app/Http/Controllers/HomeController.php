@@ -18,6 +18,7 @@ use App\Countries;
 use App\UsersGroups;
 use Carbon\Carbon;
 use DB;
+
 use Feed;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -115,11 +116,14 @@ class HomeController extends BaseController
     }
 
 
-    public function jobDetails($id)
+    public function jobDetails(Request $request, $id)
     {
         $Lat = 0;
         $Lon = 0;
 
+        $location=GeoIP::getLocation($request->input('ip'));
+        $this->data['country']=$location['country'];
+        
 
      
         $jobs = Posts::where('slug', $id)->first();
@@ -127,7 +131,8 @@ class HomeController extends BaseController
         if (empty($jobs)) {
             return $this->throw404();
         }
-
+        
+        //count of views by users
         Posts::where('slug', $id)->update(['views' => $jobs->views + 1]);
 
 
@@ -144,11 +149,12 @@ class HomeController extends BaseController
         $this->data['relatedJobs'] = $relatedJobs;
 
 
-
+        //dd($jobs->lang);
         $stopwords = file('stopword.txt');
 
         $this->data['tags'] = $this->stopWords($jobs->description,$stopwords);
         
+
         //for remove duplicate keywords in job 
         $this->data['tags']=array_unique($this->data['tags']);
         
@@ -172,10 +178,10 @@ class HomeController extends BaseController
         }
 
        // $disqus = new \Disqus('0fQcn8EFVrVL2CJeAFJTfBnM98nU9dk0jOrh7rdLdSa234oXbnWFJMVM7dq5SFBU');
-        $secret_key = '0fQcn8EFVrVL2CJeAFJTfBnM98nU9dk0jOrh7rdLdSa234oXbnWFJMVM7dq5SFBU';
+        //---$secret_key = '0fQcn8EFVrVL2CJeAFJTfBnM98nU9dk0jOrh7rdLdSa234oXbnWFJMVM7dq5SFBU';
 
         // create new instance of Disqus API
-        $disqus = new \Disqus($secret_key);
+        //---$disqus = new \Disqus($secret_key);
 
         // uncomment if you have trouble with secure connections
         //$disqus->setSecure(false);
@@ -193,7 +199,7 @@ class HomeController extends BaseController
         );
 
         // get a list with all disqus comments since last comment in your local db
-        $comments = $disqus->posts->list($params);
+        /*$comments = $disqus->posts->list($params);
         $commentData = array();
 
         for($commentVar = 0; $commentVar < count($comments); $commentVar++)
@@ -205,7 +211,7 @@ class HomeController extends BaseController
 
         }
 
-        $this->data['commentsData'] = $commentData;    
+        $this->data['commentsData'] = $commentData;    */
                        
         Posts::where('id',$id)->increment('views',1);
 
@@ -392,7 +398,7 @@ class HomeController extends BaseController
         return redirect('/login');
     }
 
-    public function jobList()
+    public function jobList(Request $request)
     {
 
 //dd(Input::get('title'));
@@ -436,9 +442,10 @@ $days=Input::get('days',0);
 
   
         $country=Input::get('country');
-//dd($days);
+
         $q=Input::get('q');
         if(isset($country) and isset($q)){
+
             $jobs = Posts::where('status', 1)
                 ->where('country', 'LIKE', '%' . $country . '%')
                 ->where(function($query) use ($q)
@@ -447,6 +454,18 @@ $days=Input::get('days',0);
                     ->orWhere('description', 'LIKE', '%' . $q . '%');
                 })
            
+                ->orderBy('id', 'desc')
+                ->paginate(10);       
+        }    
+
+        if(!isset($country) and isset($q)){
+            //dd($country);
+            $jobs = Posts::where('status', 1)
+                ->where(function($query) use ($q)
+                {
+                    $query->where('title', 'LIKE', '%' . $q . '%')
+                    ->orWhere('description', 'LIKE', '%' . $q . '%');
+                })
                 ->orderBy('id', 'desc')
                 ->paginate(10);       
         }    
@@ -497,6 +516,11 @@ DB::table('users')
         $this->data['countries'] = $countries;
         $this->data['companies'] = $companies;
         $this->data['keywords'] = $keywords;
+
+        $location=GeoIP::getLocation($request->ip());                             
+        $this->data['country_geo'] = $location["country"];
+        $this->data['state_geo'] = $location["state_name"];
+        $this->data['city_geo'] = $location["city"];
 
         return view('jobs', $this->data);
 
@@ -720,6 +744,10 @@ DB::table('users')
         $city = Input::get('city');
         $category = Input::get('category');
 
+        
+
+
+
         $result = DB::table('keywords')->where('keyword', $title)->get();
         if (strlen($title) > 0) {
             if (sizeof($result) == 0) {
@@ -770,6 +798,10 @@ DB::table('users')
         $this->data['state'] = $state;
         $this->data['city'] = $city;
         $this->data['category'] = $category;
+
+
+
+
 
         return view('jobs', $this->data);
     }
@@ -1337,26 +1369,54 @@ DB::table('users')
     // funcction for get keywords / tags
     function stopWords($text, $stopwords) {
 
+            $keywords=array();
           // Remove line breaks and spaces from stopwords
             $stopwords = array_map(function($x){return trim(strtolower($x));}, $stopwords);
 
+
           // Replace all non-word chars with comma
-          $pattern = '/[0-9\W]/';
+            
+          $pattern = '/[0-9\W]/u';
+            //$pattern = '/[0-9^\p{L}]/';
+
           $text = preg_replace($pattern, ',', $text);
+          //$text = mb_ereg_replace($pattern, ',', $text);
+          //dump(mb_internal_encoding());
+          //mb_regex_encoding("UTF-8");
+    //regex could also be \W
+    //$text = mb_ereg_replace($pattern, ',', $text);
+
+          
 
           // Create an array from $text
           $text_array = explode(",",$text);
+          //dump($text_array);
+
 
           // remove whitespace and lowercase words in $text
           $text_array = array_map(function($x){return trim(strtolower($x));}, $text_array);
+          //dump($text_array);
+          //dump($stopwords);
+
+
 
           foreach ($text_array as $term) {
+            /*dump($term);
+            
+            if (("فى"فى, $term)) {
+    echo "Нашел Irix";
+}*/
+
             if (!in_array($term, $stopwords)) {
+                //dump($term);
+              //if($term=="فى"){dump("فى");}  
               $keywords[] = $term;
             }
           };
+          //dump($keywords);
 
           return array_filter($keywords);
+
         }
 
 }

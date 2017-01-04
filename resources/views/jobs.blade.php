@@ -252,7 +252,6 @@
                                             </div>
                                         </div><!-- end item list -->
                                     @endforeach
-
                             </div>
 
 
@@ -309,17 +308,16 @@
                                                 @else    
                                                     <h3 class="no-margin-top">
                                                 @endif
-
-
-
-
-                                                    <a href="/{{$job->slug}}"
-                                                                                 class="">{{$job->title}} <i
-                                                                    class="fa fa-link color-white-mute font-1x"></i></a>
+                                                        <a href="/{{$job->slug}}"
+                                                            class="">{{$job->title}} <i
+                                                                class="fa fa-link color-white-mute font-1x">
+                                                                </i>
+                                                        </a>
                                                     </h3>
 
                                                     @if(strlen($job->company)>0&&strlen($job->state)>0&&strlen($job->city)>0&&strlen($job->experience)>0)
-                                                        <h5><span class="color-black">Company:<a
+                                                        <h5>
+                                                            <span class="color-black">Company:<a
                                                                         href="/company/{{\Illuminate\Support\Str::slug($job->company)}}">{{$job->company}}</a></span>
                                                             - <span class="color-Black">State:<a
                                                                         href="/state/{{\Illuminate\Support\Str::slug($job->state)}}">{{$job->state}}</a></span>
@@ -334,13 +332,6 @@
                                                     @else
                                                     <div>
                                                     @endif
-
-
-
-
-
-
-
                                                         {{\Illuminate\Support\Str::limit(strip_tags($job->description),265)}}
                                                         <br>
                                                         <span class="color-white-mute">{{$job->created_at}}</span> -

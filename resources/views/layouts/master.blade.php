@@ -73,7 +73,7 @@ color:white;
 position: relative;
 padding:2px;
 }
-      
+      /*
       .jo-sociallocker-strong
       {
         font-size: 20px!important;
@@ -81,14 +81,14 @@ padding:2px;
       }
       .jo-sociallocker-inner-wrap
       {
-        background-color: white/*#868585*/ !important;
-        color: /*#fff*/#0077b5;
+        background-color: white !important;
+        color: #0077b5;
         border-radius: 5px !important;
         border-color: #0077b5 !important;
         padding: 10px; 
         border-width: 3px !important;
         border-style: solid;
-
+*/
 
       }
     </style>
@@ -126,7 +126,7 @@ padding:2px;
 {!! $settings_custom_js->custom_js !!}
 
    <!--  GOOGLE JS FOR AUTOFILL COUNTRY AND STATE NAME -->
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDO1ZffBXM25_YA_5uJ-MaWTKBzGdDRi68"></script>
+<!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDO1ZffBXM25_YA_5uJ-MaWTKBzGdDRi68"></script>-->
 
 
 
@@ -222,8 +222,8 @@ function errorFunction(){
     jQuery(document).ready(function ($) {
         $("#Apply_for_job").sociallocker({
             text: {
-                header: "POSTULER", // replace content with this heading
-                message: "APPLY LINK WILL APPEARS WHEN YOU LIKE OR SHARE" // hidden content message
+                
+                
             },
 
             theme: "starter", // Theme
@@ -234,14 +234,14 @@ function errorFunction(){
             },
 
             buttons: {   // Buttons you want to show on box
-                order: ["facebook-like", "twitter-tweet", "twitter-follow", "google-plus", "linkedin-share"] 
+                order: ["twitter-tweet", "facebook-like","twitter-follow", "google-plus", "linkedin-share"] 
             },
 
             facebook: {  
-                appId: "2068418453432508",
+                
                 like: {
                     title: "Like us",
-                    url: "https://www.facebook.com/9H9Gang" // link to like in Facebook button
+                    url: "https://www.facebook.com/FacebookforDevelopers/" // link to like in Facebook button
                 }
             },
 

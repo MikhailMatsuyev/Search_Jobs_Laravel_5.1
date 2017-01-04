@@ -152,7 +152,7 @@ return [
         /*
         * Disqus API
         */
-        Roumen\Disqus\DisqusServiceProvider::class,
+        //Roumen\Disqus\DisqusServiceProvider::class,
         Torann\GeoIP\GeoIPServiceProvider::class,
 
     ],

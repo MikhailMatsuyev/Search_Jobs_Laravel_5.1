@@ -50,10 +50,10 @@ class PostsController extends Controller
             Session::flash('error_msg', trans('messages.preview_mode_error'));
             return redirect()->back()->withInput(Input::all());
         }
-
+        
         $v = \Validator::make(['title' => Input::get('title'),
             'description' => Input::get('description'),
-            'company' => Input::get('company'),
+            /*'company' => Input::get('company'),
             'country' => Input::get('country'),
             'state' => Input::get('state'),
             'city' => Input::get('city'),
@@ -63,9 +63,9 @@ class PostsController extends Controller
             'salary' => Input::get('salary'),
             'file' => Input::file('featured_image'),
             'experience' => Input::get('experience'),
-            'status' => Input::get('status'),
+            'status' => Input::get('status'),*/
 
-        ], ['title' => 'required', 'description' => 'required','file' => 'required|image','company' => 'required','country' => 'required','state' => 'required','city' => 'required', 'category_id' => 'required','category' => 'required','sub_category' => 'required','salary' => 'required','experience' => 'required','status' => 'required']);
+        ], ['title' => 'required', 'description' => 'required'/*,'file' => 'required|image','company' => 'required','country' => 'required','state' => 'required','city' => 'required', 'category_id' => 'required','category' => 'required','sub_category' => 'required','salary' => 'required','experience' => 'required','status' => 'required'*/]);
 
         if ($v->fails()) {
             Session::flash('error_msg', Utils::messages($v));
@@ -89,7 +89,10 @@ class PostsController extends Controller
         $post_item->views = 0;
         $post_item->featured = Input::get('featured');
         $post_item->status = Input::get('status');
+        if(Input::file('featured_image')){
+
         $post_item->featured_image = Utils::imageUpload(Input::file('featured_image'), 'images');
+        }
         $post_item->save();
 
 
@@ -106,8 +109,40 @@ class PostsController extends Controller
 
             $post = Posts::where('id', $id)->first();
 
-            $post->category = SubCategories::where('id', $post->category_id)->first();
-            $post->parent_category = Categories::where('id', $post->category->parent_id)->first();
+
+
+            if (isset($post->category_id)){
+                $post->category = SubCategories::where('id', $post->category_id)->first();
+            }else{
+                $post->category="";
+
+            }
+
+
+
+            //dd($post->category->parent_id);
+
+            if (isset($post->category->parent_id)){
+                //$post_parent_category = Categories::where('id', $post->category->parent_id)->first();
+                $post->parent_category = Categories::where('id', $post->category->parent_id)->first();
+            }else{
+                $post->parent_category=null;
+
+            }
+
+            if(isset($post->parent_category->id)){
+                $sub_categories_parent_id = SubCategories::where('parent_id', $post->parent_category->id)->get();    
+            }else{
+                $sub_categories_parent_id=null;
+
+            }
+
+
+            
+
+
+
+
 
             $countries=Countries::all();
 
@@ -127,7 +162,7 @@ class PostsController extends Controller
 
             $admins = Utils::getUsersInGroup(Users::TYPE_ADMIN);
 
-            return view('admin.posts.edit', ['post' => $post, 'categories' => Categories::all(),'countries' => $countries, 'sub_categories' => SubCategories::where('parent_id', $post->parent_category->id)->get(), 'admins' => $admins]);
+            return view('admin.posts.edit', ['post' => $post, 'categories' => Categories::all(),'countries' => $countries, 'sub_categories' => $sub_categories_parent_id, 'admins' => $admins ]);
 
         } else {
             Session::flash('error_msg', trans('messages.post_not_found'));
@@ -148,7 +183,7 @@ class PostsController extends Controller
 
 
             $v = \Validator::make(['title' => Input::get('title'),
-                'description' => Input::get('description'),
+                'description' => Input::get('description')/*,
                 'company' => Input::get('company'),
                 'country' => Input::get('country'),
                 'state' => Input::get('state'),
@@ -158,9 +193,9 @@ class PostsController extends Controller
                 'salary' => Input::get('salary'),
                 'file' => Input::file('featured_image'),
                 'experience' => Input::get('experience'),
-                'status' => Input::get('status'),
+                'status' => Input::get('status'),*/
 
-            ], ['title' => 'required', 'description' => 'required', 'file' => 'required|image','company' => 'required', 'country' => 'required', 'state' => 'required','city' => 'required', 'category' => 'required', 'sub_category' => 'required', 'salary' => 'required', 'experience' => 'required', 'status' => 'required']);
+            ], ['title' => 'required', 'description' => 'required'/*, 'file' => 'required|image','company' => 'required', 'country' => 'required', 'state' => 'required','city' => 'required', 'category' => 'required', 'sub_category' => 'required', 'salary' => 'required', 'experience' => 'required', 'status' => 'required'*/]);
 
             if ($v->fails()) {
                 Session::flash('error_msg', Utils::messages($v));
