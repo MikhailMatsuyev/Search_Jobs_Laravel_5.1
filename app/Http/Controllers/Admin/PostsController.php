@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Input;
 use Session;
+use App\Helpers\Helper;
 
 class PostsController extends Controller
 {
@@ -45,11 +46,14 @@ class PostsController extends Controller
 
     public function store()
     {
+        //dd((Input::get('title')));
+        //dd(Str::slug(Input::get('title')));
 
         if (!Utils::hasWriteAccess()) {
             Session::flash('error_msg', trans('messages.preview_mode_error'));
             return redirect()->back()->withInput(Input::all());
         }
+
         
         $v = \Validator::make(['title' => Input::get('title'),
             'description' => Input::get('description'),
@@ -76,16 +80,21 @@ class PostsController extends Controller
         $post_item->title = Input::get('title');
         $post_item->description = Input::get('description');
         $post_item->author_id = \Auth::id();
+        //$post_item->company = Input::get('company');
+        //$post_item->slug = Str::slug(Input::get('title'))."-".Carbon::now()->timestamp;
+        $post_item->slug = Helper::slug_custom(Input::get('title'))."-".Carbon::now()->timestamp;
+        //$post_item->slug = Input::get('title')."-".Carbon::now()->timestamp;
+        //\Illuminate\Support\Str::slug
+
         $post_item->company = Input::get('company');
-        $post_item->slug = Str::slug(Input::get('title'))."-".Carbon::now()->timestamp;
         $post_item->country = Input::get('country');
         $post_item->state = Input::get('state');
         $post_item->city = Input::get('city');
         $post_item->category_id = Input::get('sub_category');
-        $post_item->category = Str::slug(Input::get('category'));
-        $post_item->subcategory = Str::slug(Input::get('sub_category'));
-        $post_item->salary = Str::slug(Input::get('salary'));
-        $post_item->experience = Str::slug(Input::get('experience'));
+        $post_item->category = Helper::slug_custom(Input::get('category'));
+        $post_item->subcategory = Helper::slug_custom(Input::get('sub_category'));
+        $post_item->salary = Helper::slug_custom(Input::get('salary'));
+        $post_item->experience = Helper::slug_custom(Input::get('experience'));
         $post_item->views = 0;
         $post_item->featured = Input::get('featured');
         $post_item->status = Input::get('status');
@@ -101,6 +110,27 @@ class PostsController extends Controller
         return redirect()->back();
 
     }
+/*
+    public static function slug($title, $separator = '-')
+    {
+        //$title = static::ascii($title);
+        //dd($title);
+
+        // Convert all dashes/underscores into separator
+        $flip = $separator == '-' ? '_' : '-';
+
+        $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
+
+        // Remove all characters that are not the separator, letters, numbers, or whitespace.
+        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', mb_strtolower($title));
+
+        // Replace all separator characters and whitespace by a single separator
+        $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+
+        return trim($title, $separator);
+    }
+    */
+
 
     public function edit($id)
     {
@@ -207,7 +237,7 @@ class PostsController extends Controller
             $post_item->title = Input::get('title');
             $post_item->description = Input::get('description');
             $post_item->company = Input::get('company');
-            $post_item->slug = Str::slug(Input::get('title'));
+            //$post_item->slug = Str::slug(Input::get('title'));
             $post_item->country = Input::get('country');
             $post_item->state = Input::get('state');
             $post_item->city = Input::get('city');

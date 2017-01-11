@@ -555,10 +555,14 @@ DB::table('users')
 
     public function companyFilter($id)
     {
+        
 
         $company=str_replace("-",' ',$id);
 
+
+
         $jobs = Posts::where('company', $company)->where('status', 1)->orderBy('created_at', 'desc')->paginate(10);
+        //dd($jobs);
 
         $categories = Categories::where('id', $id)->get();
 
@@ -1380,40 +1384,19 @@ DB::table('users')
             //$pattern = '/[0-9^\p{L}]/';
 
           $text = preg_replace($pattern, ',', $text);
-          //$text = mb_ereg_replace($pattern, ',', $text);
-          //dump(mb_internal_encoding());
-          //mb_regex_encoding("UTF-8");
-    //regex could also be \W
-    //$text = mb_ereg_replace($pattern, ',', $text);
-
-          
 
           // Create an array from $text
           $text_array = explode(",",$text);
-          //dump($text_array);
+          //dd($text_array);
 
-
-          // remove whitespace and lowercase words in $text
           $text_array = array_map(function($x){return trim(strtolower($x));}, $text_array);
-          //dump($text_array);
-          //dump($stopwords);
-
-
-
+          
           foreach ($text_array as $term) {
-            /*dump($term);
-            
-            if (("فى"فى, $term)) {
-    echo "Нашел Irix";
-}*/
-
+           
             if (!in_array($term, $stopwords)) {
-                //dump($term);
-              //if($term=="فى"){dump("فى");}  
-              $keywords[] = $term;
+                $keywords[] = $term;
             }
-          };
-          //dump($keywords);
+          };          
 
           return array_filter($keywords);
 

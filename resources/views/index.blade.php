@@ -64,16 +64,16 @@
                                             @if(strlen($featured_job->company)>0&&strlen($featured_job->state)>0&&strlen($featured_job->city)>0&&strlen($featured_job->experience)>0)
                                                 <h5>
                                                     <span class="color-black">Company:
-                                                            <a href="/company/{{\Illuminate\Support\Str::slug($featured_job->company)}}">
+                                                            <a href="/company/{{Helper::slug_custom($featured_job->company)}}">
                                                                 
                                                                     {{$featured_job->company}}
                                                                 
                                                             </a>
                                                     </span>
                                                     - <span class="color-Black">State:<a
-                                                                href="/state/{{\Illuminate\Support\Str::slug($featured_job->state)}}">{{$featured_job->state}}</a></span>
+                                                                href="/state/{{Helper::slug_custom($featured_job->state)}}">{{$featured_job->state}}</a></span>
                                                     - <span class="color-Black">City:<a
-                                                                href="/city/{{\Illuminate\Support\Str::slug($featured_job->city)}}">{{$featured_job->city}}</a></span>
+                                                                href="/city/{{Helper::slug_custom($featured_job->city)}}">{{$featured_job->city}}</a></span>
                                                 </h5>
                                                 <p class="text-truncate ">Experience:{{$featured_job->experience}}
                                                     Years</p>
@@ -128,11 +128,11 @@
 
                                                 @if(strlen($featured_job->company)>0&&strlen($featured_job->state)>0&&strlen($featured_job->city)>0&&strlen($featured_job->experience)>0)
                                                     <h5><span class="color-black">Company:<a
-                                                                    href="/company/{{\Illuminate\Support\Str::slug($featured_job->company)}}">{{$featured_job->company}}</a></span>
+                                                                    href="/company/{{Helper::slug_custom($featured_job->company)}}">{{$featured_job->company}}</a></span>
                                                         - <span class="color-Black">State:<a
-                                                                    href="/state/{{\Illuminate\Support\Str::slug($featured_job->state)}}">{{$featured_job->state}}</a></span>
+                                                                    href="/state/{{Helper::slug_custom($featured_job->state)}}">{{$featured_job->state}}</a></span>
                                                         - <span class="color-Black">City:<a
-                                                                    href="/city/{{\Illuminate\Support\Str::slug($featured_job->city)}}">{{$featured_job->city}}</a></span>
+                                                                    href="/city/{{Helper::slug_custom($featured_job->city)}}">{{$featured_job->city}}</a></span>
                                                     </h5>
                                                     <p class="text-truncate ">Experience:{{$featured_job->experience}}
                                                         Years</p>
@@ -199,11 +199,11 @@
 
                                             @if(strlen($recent_job->company)>0&&strlen($recent_job->state)>0&&strlen($recent_job->city)>0&&strlen($recent_job->experience)>0)
                                                 <h5><span class="color-black">Company:<a
-                                                                href="/company/{{\Illuminate\Support\Str::slug($recent_job->company)}}">{{$recent_job->company}}</a></span>
+                                                                href="/company/{{Helper::slug_custom($recent_job->company)}}">{{$recent_job->company}}</a></span>
                                                     - <span class="color-Black">State:<a
-                                                                href="/state/{{\Illuminate\Support\Str::slug($recent_job->state)}}">{{$recent_job->state}}</a></span>
+                                                                href="/state/{{Helper::slug_custom($recent_job->state)}}">{{$recent_job->state}}</a></span>
                                                     - <span class="color-Black">City:<a
-                                                                href="/city/{{\Illuminate\Support\Str::slug($recent_job->city)}}">{{$recent_job->city}}</a></span>
+                                                                href="/city/{Helper::slug_custom($recent_job->city)}}">{{$recent_job->city}}</a></span>
                                                 </h5>
                                                 <p class="text-truncate ">Experience:{{$recent_job->experience}}
                                                     Years</p>
@@ -313,7 +313,7 @@
                                     <ul class="list-unstyled ">
                                         @foreach($keywords as $keyword)
                                             <li>
-                                                <a href="/keyword/{{\Illuminate\Support\Str::slug($keyword->keyword)}}">{{$keyword->keyword}}</a>
+                                                <a href="/keyword/{{Helper::slug_custom($keyword->keyword)}}">{{$keyword->keyword}}</a>
                                                 ({{count(\App\Posts::where('title', 'LIKE', '%' . $keyword->keyword . '%')->get())}}
                                                 )
                                             </li>
@@ -333,8 +333,13 @@
                                     <ul class="list-unstyled ">
                                         @foreach($companies as $company)
                                             @if(strlen($company->company)>0)
+
+                                              @if($company->lang =='ar')    
+                                                <li style="direction: rtl">
+                                              @else 
                                                 <li>
-                                                    <a href="/company/{{\Illuminate\Support\Str::slug($company->company)}}">{{$company->company}}</a>
+                                              @endif 
+                                                <a href="/company/{{Helper::slug_custom($company->company)}}">{{$company->company}}</a>
                                                     ({{count(\App\Posts::where('company',$company->company )->get())}})
                                                 </li>
                                             @endif
@@ -360,7 +365,7 @@
 
 
                                             <ul class="list-group" data-toggle="collapse" data-target="#main_cat_{{$state->id}}">
-                                                <li class="list-group-item"><i class="fa fa-caret-down"></i><a href="/state/{{\Illuminate\Support\Str::slug($state->state)}}"> {{$state->state}}</a>
+                                                <li class="list-group-item"><i class="fa fa-caret-down"></i><a href="/state/{{Helper::slug_custom($state->state)}}"> {{$state->state}}</a>
                                                     ({{count(\App\Posts::where('state',$state->state )->get())}})
 
 
@@ -371,7 +376,7 @@
 
 
                                                             <li>
-                                                                    <a href="/city/{{\Illuminate\Support\Str::slug($city->city)}}"> {{$city->city}} </a>
+                                                                    <a href="/city/{{Helper::slug_custom($city->city)}}"> {{$city->city}} </a>
                                                                     ({{count(\App\Posts::where('city',$city->city )->get())}})
 
                                                                 </li>
@@ -470,7 +475,7 @@
 
                         <ul class="list-group" data-toggle="collapse" data-target="#main_cat_{{$country->id}}">
                             <li class="list-group-item"><a
-                                        href="/country/{{\Illuminate\Support\Str::slug($country->name)}}"> {{$country->name}}</a>
+                                        href="/country/{{Helper::slug_custom($country->name)}}"> {{$country->name}}</a>
 
                             </li>
 

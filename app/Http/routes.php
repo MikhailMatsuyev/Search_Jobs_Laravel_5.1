@@ -191,6 +191,8 @@ Route::group(array('namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 
         get('/edit/{id}', 'PostsController@edit')->where(array('id' => '[0-9]+'));
         get('/delete/{id}', 'PostsController@delete')->where(array('id' => '[0-9]+'));
 
+        //dump();
+
         post('/create', 'PostsController@store');
         post('/update', 'PostsController@update');
 

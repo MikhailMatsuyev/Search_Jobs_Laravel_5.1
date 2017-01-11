@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-sm-6 hidden-xs">
                     <div>Job details :</div>
-                </div>
+                <div>
                 <div class="col-sm-6">
                     <div class="text-right"><a href="#">&laquo; Go back to job listings</a></div>
                 </div>

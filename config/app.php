@@ -206,6 +206,7 @@ return [
         'Feed' => Thujohn\Rss\RssFacade::class,
         'Embed' => Cohensive\Embed\Facades\Embed::class,
         'GeoIP' => Torann\GeoIP\Facades\GeoIP::class,
+        'Helper' => App\Helpers\Helper::class,
     ],
 
 ];
