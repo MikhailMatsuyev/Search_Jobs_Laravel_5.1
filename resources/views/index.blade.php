@@ -178,6 +178,7 @@
                         <!-- item list -->
                         <div class="box-list">
                             @foreach($recent_jobs as $recent_job)
+                            {{$featured_job->lang}}
                                 <div class="item">
                                     <div class="row">
                                         @if(strlen($recent_job->featured_image)>0)

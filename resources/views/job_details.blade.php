@@ -71,13 +71,72 @@
                         <div class="row">
                             <div class="col-md-8">
                                 @if(strlen($jobs->featured_image)>0)
-                               <img src="{{$jobs->featured_image}}" alt="">
-                                    @else
+                                    <img src="{{$jobs->featured_image}}" alt="">
+                                @else
                                     <img src="/assets/theme/images/company-logo/1.jpg" alt="">
-                                    @endif
+                                @endif
                             </div>
 
+                            <!--Company details -->
+
+                            
+                            @if(strlen($jobs->company)>0&&strlen($jobs->salary)&&strlen($jobs->experience)&&strlen($jobs->state)&&strlen($jobs->country))
+                                <div class="col-md-12" style="border-top: 1px solid #e1e1e1; margin-top: 10px;">
+                                    <div class="text-center" >
+
+                                        <h3>Company Details</h3>
+
+                                        <p style="direction: ltr;">Company: 
+                                            @if($jobs->lang =='ar') 
+                                                <span style="direction: rtl;">
+                                            @else  
+                                                <span>        
+                                                
+                                            @endif    
+                                                {{$jobs->company}}
+                                                </span>
+                                        </p>
+
+                                        <p>Salary:{{$jobs->salary}}</p>
+                                        <p>Experience:{{$jobs->experience}}</p>
+
+                                        <p style="direction: ltr;">State: 
+                                            @if($jobs->lang =='ar') 
+                                                <span style="direction: rtl;">
+                                            @else  
+                                                <span>        
+                                                
+                                            @endif    
+                                                {{$jobs->state}}
+                                                </span>
+                                        </p>
+
+                                        <p style="direction: ltr;">Country: 
+                                            @if($jobs->lang =='ar') 
+                                                <span style="direction: rtl;">
+                                            @else  
+                                                <span>        
+                                                
+                                            @endif    
+                                                {{$jobs->country}}
+                                                </span>
+                                        </p>
+                                    </div>
+                                </div>    
+                            @endif
+                        
+
+
+
                         </div>
+
+
+                        
+                        
+                        
+                        
+                        
+
                         @if($jobs->lang =='ar')    
                         <h2 class="title" style="direction: rtl;">
                         
@@ -154,8 +213,50 @@
                             })();
                             </script>
                             <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
+
+                    <hr>        
+                    @foreach($relatedJobs as $reletedJobs)
+
+                        @if($reletedJobs->lang =='ar')
+                            <div style="direction: rtl" class="col-md-4">
+                        @else   
+                            <div class="col-md-4">
+
+                        @endif         
+                                <a href="{{$reletedJobs->slug}}">
+                                    <h5>
+                                        {{ $reletedJobs->title }}
+                                    </h5>
+                                </a>
+                                @if($reletedJobs->lang =='ar')
+                                    <p style="direction: rtl">
+                                @else
+                                    <p>
+                                @endif
+                                    <?php 
+                                        $p = array("<p>", "</p>");
+                                        $b = "<br>";
+                                     ?>
+                                    {{ str_replace($b, " ", str_replace($p, "", str_limit($reletedJobs->description,50))) }}
+                                    </p>
+                            </div>
+                    @endforeach        
+
+                    
+                    <!--
+                    <div class="col-md-4">
+                        f
+                    </div>
+                    <div class="col-md-4">
+                        f
+                    </div>           
+                    -->
                                 
                 </div>
+
+
+
+
                 <div class="col-md-3">
 
                     <!-- box affix right -->
@@ -179,7 +280,8 @@
                                     <p><a href="/login" class="btn btn-theme btn-t-primary btn-block-xs">Login and Apply</a></p>
                             @endif
 
-                        </div><hr>
+                        </div>
+                        <hr>
                         <!-- Subscribe to our mailing list -->
                         <div style="border-color: #20354a; border-style: solid ;border-radius: 5px;padding: 10px;" >
                             
@@ -237,7 +339,11 @@
                         </script>
                         </div>
                         <hr>
+                        <hr>
+
+
                         <!-- SHOW  RELETED JOBS -->
+                        <!--
                         @foreach($relatedJobs as $reletedJobs)
 
                         @if($reletedJobs->lang =='ar')
@@ -272,6 +378,7 @@
                             </div>
                             <hr>
                         @endforeach
+                        -->
 
                         @if(strlen($jobs->company)>0&&strlen($jobs->salary)&&strlen($jobs->experience)&&strlen($jobs->state)&&strlen($jobs->country))
                         <div class="text-center" >
@@ -284,15 +391,17 @@
                             </div>
                             @endif
 
-
+                            <!--
 
                         @foreach($ads as $ad)
 
                             @if($ad->position=='sidebar')
                                 {!! $ad->code !!}
+
                             @endif
 
                         @endforeach
+                        -->
                         <!-------------------------------------------- -
     
                         <div >

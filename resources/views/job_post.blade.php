@@ -38,6 +38,7 @@
 
             var category_el = $('#category');
             var render_type_el = $('#render_type');
+            var state_el = $('#state');
 
             category_el.on('change', function () {
                 $.ajax({
@@ -49,6 +50,27 @@
 
                         $.each(sub_categories, function (key, value) {
                             $sub_category_select.append('<option value=' + value['id'] + '>' + value['title'] + '</option>');
+                        });
+                    },
+                    error: function (response) {
+                    }
+                });
+            });
+
+            state_el.on('change', function () {
+                $.ajax({
+                    url: "/api/get_cities/" + $('#state').val(),
+                    success: function (cities) {
+
+
+                        var $city_select = $('#city');
+                        $city_select.find('option').remove();
+
+                        $.each(cities, function (key, value) {
+
+                            $city_select.append($("<option></option>")
+                                    .val(value['name'])
+                                    .text(value['name']));
                         });
                     },
                     error: function (response) {
@@ -191,7 +213,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="title" class="col-sm-3 control-label">City</label>
+                            <label for="city" class="col-sm-3 control-label">City</label>
 
                             <div class="col-sm-8">
                                 <input id="city " class="form-control" type="text" name="city"

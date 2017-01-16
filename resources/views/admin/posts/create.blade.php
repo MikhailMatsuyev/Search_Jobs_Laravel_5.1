@@ -12,6 +12,7 @@
     <script type= "text/javascript" src = "/assets/js/countries.js"></script>
 
     <script type="text/javascript">
+   (function($){
         $(document).ready(function () {
 
             $('#tags').tagsinput();
@@ -119,6 +120,7 @@
             populateCountries("country", "state");
 
         });
+            })(jQuery);
     </script>
 @stop
 

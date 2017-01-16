@@ -85,6 +85,14 @@ class HomeController extends BaseController
 
 
         $keywords = DB::table('keywords')->orderBy('count', 'desc')->limit(20)->get();
+        //$this->seoShuffle();
+        //$keywords=shuffle($keywords);
+        //dump($keywords);
+        //$string="whateverwhateverwhatever";
+        //dump($keywords);
+        //$this->seoShuffle($keywords,$string);
+        //dump($keywords);
+
 
         foreach ($categories as $category) {
             $subcategories = SubCategories::where('parent_id', $category->id)->get();
@@ -99,6 +107,7 @@ class HomeController extends BaseController
         $this->data['countries'] = $countries;
         $this->data['companies'] = $companies;
         $this->data['keywords'] = $keywords;
+        //dd($this->data['keywords']);
         $this->data['states'] = $states;
 
         /* Added from GEOIP*/
@@ -114,6 +123,19 @@ class HomeController extends BaseController
         return view('index', $this->data);
 
     }
+
+    function seoShuffle(&$items,$string) {
+    //mt_srand(strlen($string));
+    for ($i = count($items) - 1; $i > 0; $i--){
+        $j = @mt_rand(0, $i);
+        $tmp = $items[$i];
+        $items[$i] = $items[$j];
+        $items[$j] = $tmp;
+    }
+}
+
+//$items = array('one','two','three','four','five','six');
+//$string = 'whatever'; 
 
 
     public function jobDetails(Request $request, $id)
@@ -157,11 +179,14 @@ class HomeController extends BaseController
 
         //for remove duplicate keywords in job 
         $this->data['tags']=array_unique($this->data['tags']);
+         //dd($this->data['tags']);
         
         foreach ($this->data['tags'] as $ttag) {
             $checkTagsTable = DB::table('tags')->where('title',$ttag)->get();
-            $checkKeywords = DB::table('keywords')->where('keyword',$ttag)->get();
-            
+
+            $checkKeywords = DB::table('keywords')->where('keyword',$ttag)->get();//!!!
+            //dump( $checkKeywords);
+            //dump($ttag);
 
             if($checkTagsTable==0)
             {
@@ -169,13 +194,16 @@ class HomeController extends BaseController
                 DB::table('post_tags')->insert(array('post_id'=>$jobs->id,'tag_id'=>$lastId));
             }
 
-            if($checkKeywords==0)
+            if( empty($checkKeywords))
             {
                 DB::table('keywords')->insert(array('keyword'=>$ttag));
+                dump($ttag);
             }
           
           
         }
+
+
 
        // $disqus = new \Disqus('0fQcn8EFVrVL2CJeAFJTfBnM98nU9dk0jOrh7rdLdSa234oXbnWFJMVM7dq5SFBU');
         //---$secret_key = '0fQcn8EFVrVL2CJeAFJTfBnM98nU9dk0jOrh7rdLdSa234oXbnWFJMVM7dq5SFBU';
